@@ -27,14 +27,14 @@
                 <button>&#x1F50D;</button>
             </div>
             <div class="start-link">
-                    <a href="#">Not Sure where to Beegin?</a>
+                    <a href="#">Not Sure where to Begin?</a>
             </div>
         </div>
     </section>
 
    <%@ include file="./common/footer.jsp" %>
     <!-- Bootstrap JS -->
-    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="style.js"></script>
 </body>
 

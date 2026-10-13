@@ -31,6 +31,11 @@ public class LoginServlet extends HttpServlet {
 
 		try {
 			Connection con = JdbcConnection.getConnection();
+			if (con == null) {
+				req.setAttribute("errorMsg", "Database Connection Failed!");
+				req.getRequestDispatcher("Login.jsp").forward(req, resp);
+				return;
+			}
 
 			String sql = "select * from student where email=? AND password=?";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -40,9 +45,12 @@ public class LoginServlet extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
+				HttpSession session = req.getSession();
+				session.setAttribute("userName", rs.getString("firstname"));
+				session.setAttribute("userEmail", rs.getString("email"));
+				
 				System.out.println("Login Successfully....!");
-				RequestDispatcher rd = req.getRequestDispatcher("dashboard.jsp");
-				rd.forward(req, resp);
+				resp.sendRedirect("dashboard.jsp");
 			} else {
 				// 👉 Wrong username or password
 				req.setAttribute("errorMsg", "Username or Password Wrong !");
@@ -52,6 +60,7 @@ public class LoginServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server Error");
 		}
 	}
 }

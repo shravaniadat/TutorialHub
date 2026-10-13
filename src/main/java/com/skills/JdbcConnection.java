@@ -7,17 +7,16 @@ import java.sql.SQLException;
 public class JdbcConnection {
 
 	private static Connection con=null;
-	public static Connection getConnection()
-	{
+	public static Connection getConnection() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tutorial_project","root","root");
+			if (con == null || con.isClosed()) {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tutorial_project", "root", "root");
+			}
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Database Connection Error: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
 		return con;
-		
 	}
 }
